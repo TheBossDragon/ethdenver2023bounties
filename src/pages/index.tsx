@@ -95,6 +95,7 @@ const Index = ({ bounties }: IndexProps) => {
                           </button>
                         </td>
                         <td className="flex justify-end whitespace-nowrap px-3 py-4 text-lg">
+                          $
                           {bounty.rewardPool
                             ? parseInt(bounty.rewardPool).toLocaleString()
                             : bounty.rewards
@@ -105,8 +106,7 @@ const Index = ({ bounties }: IndexProps) => {
                                   ) => sum + parseInt(reward.rewardAmountUsd),
                                   0
                                 )
-                                .toLocaleString()}{" "}
-                          {bounty.rewardToken}
+                                .toLocaleString()}
                         </td>
                       </tr>
                     );
@@ -167,6 +167,7 @@ const Index = ({ bounties }: IndexProps) => {
                         </td>
                         <td className="px-2 py-4 text-lg">
                           <div className="flex flex-row justify-end">
+                            $
                             {bounty.rewardPool
                               ? parseInt(bounty.rewardPool).toLocaleString()
                               : bounty.rewards
@@ -178,7 +179,6 @@ const Index = ({ bounties }: IndexProps) => {
                                     0
                                   )
                                   .toLocaleString()}{" "}
-                            {bounty.rewardToken}
                           </div>
                         </td>
                       </tr>

@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable import/no-extraneous-dependencies */
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -79,8 +80,54 @@ const BountyModal = ({ open, onClose, bounty }: IModalProps) => {
                         />
                       </div>
 
+                      <div className="mt-6">
+                        <label className="mb-2 text-lg font-medium text-gray-200">
+                          Reward
+                        </label>
+                        <p className="text-base text-gray-400">
+                          Amount: $
+                          {bounty.rewardPool
+                            ? parseInt(bounty.rewardPool).toLocaleString()
+                            : bounty.rewards
+                                .reduce(
+                                  (
+                                    sum: number,
+                                    reward: { rewardAmountUsd: string }
+                                  ) => sum + parseInt(reward.rewardAmountUsd),
+                                  0
+                                )
+                                .toLocaleString()}
+                        </p>
+                        <p className="text-base text-gray-400">
+                          Token: {bounty.rewardToken}
+                        </p>
+                        <p className="text-base text-gray-400">
+                          Chain: {bounty.rewardChain}
+                        </p>
+                      </div>
+
                       <div className="mt-6 flex w-full flex-col items-start justify-between sm:w-2/3 sm:flex-row sm:items-center">
-                        <div className="flex flex-col items-start justify-center">
+                        <div className="flex flex-col items-start justify-start">
+                          <label className="mb-2 text-lg font-medium text-gray-200">
+                            Rewards
+                          </label>
+                          {bounty.rewards.map((reward: any, index: number) => (
+                            <tr key={index}>
+                              <td className="pr-4 text-gray-400">
+                                Rank {reward.winnerRank + 1}
+                              </td>
+                              <td className="text-gray-400">
+                                <span className="font-medium">
+                                  ${reward.rewardAmountUsd}
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="mt-6 flex w-full flex-col items-start justify-between sm:w-2/3 sm:flex-row sm:items-center">
+                        <div className="flex flex-col items-start justify-start">
                           <label className="mb-2 text-lg font-medium text-gray-200">
                             Resources
                           </label>
@@ -98,7 +145,7 @@ const BountyModal = ({ open, onClose, bounty }: IModalProps) => {
                             )
                           )}
                         </div>
-                        <div className="flex flex-col items-start justify-center pt-10 sm:pt-0">
+                        <div className="flex flex-col items-start justify-start pt-10 sm:pt-0">
                           <label className="mb-2 text-lg font-medium text-gray-200">
                             Judging Parameters
                           </label>
