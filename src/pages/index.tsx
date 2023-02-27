@@ -13,6 +13,7 @@ import { Main } from "@/templates/Main";
 const Index = ({ bounties }: IndexProps) => {
   const [bountyModal, setBountyModal] = useState(null);
   const [bountyModalOpen, setBountyModalOpen] = useState(false);
+  const [showDescriptions, setShowDescriptions] = useState(false);
 
   const sortedBounties = bounties.challenges;
   sortedBounties.sort((a: any, b: any) =>
@@ -26,6 +27,12 @@ const Index = ({ bounties }: IndexProps) => {
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="mt-8 flow-root">
           <div className="-my-2 -mx-4 sm:-mx-6 lg:-mx-8">
+            <button
+              className="rounded-lg border border-white p-2 text-sm"
+              onClick={() => setShowDescriptions(!showDescriptions)}
+            >
+              {showDescriptions ? "Hide descriptions" : "Show descriptions"}
+            </button>
             <div className="inline-block min-w-full py-2 align-middle">
               <table className="hidden min-w-full max-w-screen-xl border-separate border-spacing-0 sm:block">
                 <thead>
@@ -60,39 +67,53 @@ const Index = ({ bounties }: IndexProps) => {
                   {sortedBounties.map((bounty: any, index: number) => {
                     return (
                       <tr key={index}>
-                        <td className="break-normal py-4 pl-4 pr-3 text-lg font-medium sm:pl-6 lg:pl-8">
-                          {index + 1}
-                        </td>
-                        <td className="flex flex-row items-center justify-start space-x-4 py-4 pl-4 pr-3 text-lg font-medium sm:pl-6 lg:pl-8">
-                          <div className="flex h-[2rem] w-[2rem] flex-row items-center">
-                            <img
-                              src={bounty.submittedByOrgLogo}
-                              className="max-h-[2rem] max-w-[2rem]"
-                              alt={bounty.submittedByOrgName}
-                            />
+                        <td className="py-4 pl-4 pr-3 text-right align-text-top text-lg font-medium sm:pl-6 lg:pl-8">
+                          <div className="flex flex-col items-start justify-start">
+                            <p>{index + 1}</p>
                           </div>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setBountyModal(bounty);
-                              setBountyModalOpen(true);
-                            }}
-                            className="text-left underline"
-                          >
-                            {bounty.submittedByOrgName}
-                          </button>
+                        </td>
+                        <td className="py-4 pl-4 pr-3 align-text-top text-lg font-medium sm:pl-6 lg:pl-8">
+                          <div className="flex flex-row items-center justify-start space-x-4">
+                            <div className="flex h-[2rem] w-[2rem] flex-row items-center">
+                              <img
+                                src={bounty.submittedByOrgLogo}
+                                className="max-h-[2rem] max-w-[2rem]"
+                                alt={bounty.submittedByOrgName}
+                              />
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setBountyModal(bounty);
+                                setBountyModalOpen(true);
+                              }}
+                              className="text-left underline"
+                            >
+                              {bounty.submittedByOrgName}
+                            </button>
+                          </div>
                         </td>
                         <td className="px-3 py-4 text-lg">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setBountyModal(bounty);
-                              setBountyModalOpen(true);
-                            }}
-                            className="break-normal text-left underline"
-                          >
-                            {bounty.name}
-                          </button>
+                          <div className="flex flex-col items-start justify-start">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setBountyModal(bounty);
+                                setBountyModalOpen(true);
+                              }}
+                              className="break-normal text-left underline"
+                            >
+                              {bounty.name}
+                            </button>
+                            {showDescriptions && (
+                              <div
+                                className="p-0 text-sm text-gray-400"
+                                dangerouslySetInnerHTML={{
+                                  __html: bounty.description,
+                                }}
+                              />
+                            )}
+                          </div>
                         </td>
                         <td className="flex justify-end whitespace-nowrap px-3 py-4 text-lg">
                           $
@@ -114,7 +135,7 @@ const Index = ({ bounties }: IndexProps) => {
                 </tbody>
               </table>
 
-              <table className="block sm:hidden min-w-full max-w-screen border-separate border-spacing-0">
+              <table className="max-w-screen block min-w-full border-separate border-spacing-0 sm:hidden">
                 <thead>
                   <tr>
                     <th
