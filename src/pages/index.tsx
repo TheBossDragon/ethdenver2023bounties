@@ -28,7 +28,7 @@ const Index = ({ bounties }: IndexProps) => {
         <div className="mt-8 flow-root">
           <div className="-my-2 -mx-4 sm:-mx-6 lg:-mx-8">
             <button
-              className="rounded-lg border border-white p-2 text-sm"
+              className="hidden rounded-lg border border-white p-2 text-sm sm:block"
               onClick={() => setShowDescriptions(!showDescriptions)}
             >
               {showDescriptions ? "Hide descriptions" : "Show descriptions"}
