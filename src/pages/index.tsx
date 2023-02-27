@@ -16,9 +16,33 @@ const Index = ({ bounties }: IndexProps) => {
   const [showDescriptions, setShowDescriptions] = useState(false);
 
   const sortedBounties = bounties.challenges;
-  sortedBounties.sort((a: any, b: any) =>
-    a.submittedByOrgName.localeCompare(b.submittedByOrgName)
-  );
+  sortedBounties.sort((a: any, b: any) => {
+    let aReward = 0;
+    if (a.rewardPool) {
+      aReward = parseInt(a.rewardPool);
+    } else {
+      aReward = a.rewards.reduce(
+        (sum: number, reward: { rewardAmountUsd: string }) =>
+          sum + parseInt(reward.rewardAmountUsd),
+        0
+      );
+    }
+
+    let bReward = 0;
+    if (b.rewardPool) {
+      bReward = parseInt(b.rewardPool);
+    } else {
+      bReward = b.rewards.reduce(
+        (sum: number, reward: { rewardAmountUsd: string }) =>
+          sum + parseInt(reward.rewardAmountUsd),
+        0
+      );
+    }
+
+    return bReward
+      .toLocaleString()
+      .localeCompare(aReward.toLocaleString(), undefined, { numeric: true });
+  });
 
   return (
     <Main
