@@ -249,7 +249,7 @@ export async function getStaticProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
   const res = await fetch(
-    "https://cdn.meme.market/static/ethdenver2023/bounties.json"
+    "https://ethdenver2023bounties.vercel.app/bounties.json"
   );
   const bounties = await res.json();
 
